@@ -1,0 +1,25 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.success,
+.error {
+  color: #fff;
+  margin: 5px 0 15px 0;
+  padding: 5px;
+}
+
+.success {
+  background: #0f0;
+}
+
+.error {
+  background: #f00;
+}
+
+.delete {
+  text-decoration: none;
+  color: #000;
+}
