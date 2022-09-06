@@ -22,7 +22,35 @@ UI.prototype.addBookToList = function(book) {
   `
   list.appendChild(row);
 }
+// === delete book ===
+UI.prototype.deleteBook = function(target) {
+  if (target.className === 'delete') {
+    target.parentElement.parentElement.remove()
+  }
+}
+// === UI Clear Field ===
+UI.prototype.clearField = function()
+ {
+  document.getElementById('title').value = '',
+  document.getElementById('author').value = '',
+  document.getElementById('isbn').value = '';
+ }
 
+ // === message ===
+ UI.prototype.showAlert = function(message, className) {
+  // === create div and class ===
+  const div = document.createElement('div');
+  div.className = `alert ${className}`;
+  div.appendChild(document.createTextNode(message));
+  // === get parent ====
+  const conatiner = document.querySelector('.container');
+  const form = document.querySelector('#book-form');
+  conatiner.insertBefore(div, form);
+  // === timeout remove alert after 3 seconds===
+  setTimeout(function() {
+    document.querySelector('.alert').remove()
+  }, 3000)
+ }
 // === Event Linstener ===
 document.getElementById('book-form').addEventListener('submit', function(e) {
   // === get form values ===
@@ -36,9 +64,30 @@ document.getElementById('book-form').addEventListener('submit', function(e) {
   // === instantiate UI ===
   const ui = new UI();
 
+  // === validate === 
+  if (title === '' || author === '' || isbn === '') {
+    // === error alert ===
+    ui.showAlert('Please fill in all fields', 'error')
+  } else {
+     // === Add book to list ===
+    ui.addBookToList(book);
+    // === ui clear field ===
+    ui.clearField();
+    // === success alert ===
+    ui.showAlert('Input Filled', 'success')
+  }
 
-  // === Add book to list ===
-  ui.addBookToList(book);
   e.preventDefault();
 });
 
+// === add event listener for delete book ===
+document.getElementById('book-list').addEventListener('click', function(e) {
+  // === instantiate UI ===
+  const ui = new UI();
+
+  ui.deleteBook(e.target);
+
+  // === show alert ===
+  ui.showAlert('Book Removed!!!', 'success')
+  e.preventDefault()
+})
